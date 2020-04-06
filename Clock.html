@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Clock</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<font id ="hour"></font>
+	<font class="separator">:</font>
+	<font id = "minute"></font>
+	<font class="separator">:</font>
+	<font id = "second"></font><br>
+	<button id = "run">Run</button>
+	<button id = "stop">Stop</button>
+
+
+
+<style type="text/css">
+	button{
+		width: 200px;
+		height: 100px;
+		margin-left: 50px;
+		color:white;
+		font-size: 40px;
+		background-color: limegreen;
+		border:none;
+		border-radius: 10px;
+		cursor: pointer;
+	}
+	font{
+		font-size:100px;
+		margin:30px;
+	}
+	#hour{
+		color:green;
+	}
+	#minute{
+		color:darkblue;
+	}
+	#second{
+		color:red;
+	}
+	#stop{
+		background-color: orange;
+	}
+</style>
+<script type="text/javascript">
+	let hour = document.querySelector('#hour');
+	let minute = document.querySelector('#minute');
+	let second = document.querySelector('#second');
+
+	function update(){
+	var now = new Date();
+	hour.innerHTML =  now.getHours();
+	minute.innerHTML = now.getMinutes();
+	second.innerHTML =  now.getSeconds();
+	if(+hour.innerHTML < 10) hour.innerHTML = 0+hour.innerHTML;
+	if(+minute.innerHTML < 10) minute.innerHTML = 0+minute.innerHTML;
+	if(+second.innerHTML < 10) second.innerHTML = 0+second.innerHTML;
+	}
+
+	update();
+
+	let timer = setInterval(update,1000);
+	let run = document.querySelector('#run');
+	let stop = document.querySelector('#stop');
+	run.onclick = function(){
+		update();
+		let timer1 = setInterval(update,1000);
+		timer = timer1;
+	}
+	stop.onclick =function(){
+		clearInterval(timer);
+	}
+
+</script>
+</body>
+</html>
