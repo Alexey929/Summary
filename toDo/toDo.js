@@ -34,7 +34,7 @@ function add(){
 }
 buttonAdd.addEventListener('click',add);
 
-document.addEventListener('keydown',function(event){
+input.addEventListener('keydown',function(event){
 	if(event.code == 'Enter'){
 		add();
 	}
