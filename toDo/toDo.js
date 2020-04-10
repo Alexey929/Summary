@@ -1,7 +1,7 @@
 let input = document.querySelector("#input");
 let buttonAdd = document.querySelector("#add");
 let list = document.querySelector('#toDoList');
-buttonAdd.onclick = function (){	
+function add(){	
 	if (!input.value){
 		alert('input is empty');
 	}
@@ -32,6 +32,19 @@ buttonAdd.onclick = function (){
 }
 	}
 }
+buttonAdd.addEventListener('click',add);
+
+document.addEventListener('keydown',function(event){
+	if(event.code == 'Enter'){
+		add();
+	}
+});
+
+document.addEventListener('keydown',function(event){
+	if(event.key == 'Delete'){
+		list.lastElementChild.remove();
+	}
+})
 
 function flashingTitle(){
 let title = document.querySelector("h1");
