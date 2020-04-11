@@ -34,7 +34,7 @@
         </td>
       </tr>
       <tr>
-        <td>Срок вклада:</td>
+        <td>Срок вклада (мес.):</td>
         <td>
           <select name="months">
             <option value="3">3 (минимум)</option>
@@ -87,29 +87,14 @@
     let afterHeight = document.querySelector('#height-after');
     let beforeHeight = document.querySelector('#height-before');
 
-    beforeMoney.innerHTML = form.money.value;
-	afterMoney.innerHTML = Math.round(beforeMoney.innerHTML*(1+interest.value*0.01*months.value/12));
-
-	let coefficient = afterMoney.innerHTML/beforeMoney.innerHTML;
-    afterHeight.style.height = `${parseInt(beforeHeight.style.height) * coefficient}px`;
-
-    form.money.oninput = function(){
-    	beforeMoney.innerHTML = form.money.value;
-    	afterMoney.innerHTML = Math.round(beforeMoney.innerHTML*(1+interest.value*0.01*months.value/12));
-    	let coefficient = afterMoney.innerHTML/beforeMoney.innerHTML;
-   	    afterHeight.style.height = `${parseInt(beforeHeight.style.height) * coefficient}px`;
-    
+    function update(){
+      beforeMoney.innerHTML = form.money.value;
+      afterMoney.innerHTML = Math.round(beforeMoney.innerHTML*(1+interest.value*0.01*months.value/12));
+      let coefficient = afterMoney.innerHTML/beforeMoney.innerHTML;
+      afterHeight.style.height = `${parseInt(beforeHeight.style.height) * coefficient}px`;
     }
-    months.oninput = function(){
-    	afterMoney.innerHTML = Math.round(beforeMoney.innerHTML*(1+interest.value*0.01*months.value/12));
-    	let coefficient = afterMoney.innerHTML/beforeMoney.innerHTML;
-   	    afterHeight.style.height = `${parseInt(beforeHeight.style.height) * coefficient}px`;
-    }
-    interest.oninput = function(){
-    	afterMoney.innerHTML = Math.round(beforeMoney.innerHTML*(1+interest.value*0.01*months.value/12));
-    	let coefficient = afterMoney.innerHTML/beforeMoney.innerHTML;
-   	    afterHeight.style.height = `${parseInt(beforeHeight.style.height) * coefficient}px`;
-    }
+    update();
+    form.addEventListener('input',update);
 
 
   </script>
