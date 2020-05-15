@@ -1,78 +1,135 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Clock</title>
+	<title>My clock</title>
 	<meta charset="utf-8">
 </head>
 <body>
-	<font id ="hour"></font>
-	<font class="separator">:</font>
-	<font id = "minute"></font>
-	<font class="separator">:</font>
-	<font id = "second"></font><br>
-	<button id = "run">Run</button>
-	<button id = "stop">Stop</button>
+	<style type="text/css">
+		#main{
+			font-size: 100px;
+			margin-left: 100px;
+			margin-top: 100px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			position: absolute;
+		}
+		#btn{
+			margin-top: 30px;
+			width: 200px;
+			font-size: 50px;
+			cursor: pointer;
+			border-radius: 10px;
+			border:none;
+			color:white;
+			background-color: red;
+			opacity: 0.8;		}
+		#hours{
+			color:rgb(0,0,177);
+		}
+		#firstseparator{
+			color:rgb(0,0,200);
+		}
+		#minutes{
+			color:rgb(0,0,255);
+		}
+		#secondseparator{
+			color:rgb(60,60,255);
+		}
+		#seconds{
+			color:rgb(108,108,255);
+		}
+		#date{
+			font-size: 30px;
+		}
 
 
+	</style>
 
-<style type="text/css">
-	button{
-		width: 200px;
-		height: 100px;
-		margin-left: 50px;
-		color:white;
-		font-size: 40px;
-		background-color: limegreen;
-		border:none;
-		border-radius: 10px;
-		cursor: pointer;
-	}
-	font{
-		font-size:100px;
-		margin:30px;
-	}
-	#hour{
-		color:green;
-	}
-	#minute{
-		color:darkblue;
-	}
-	#second{
-		color:red;
-	}
-	#stop{
-		background-color: orange;
-	}
-</style>
-<script type="text/javascript">
-	let hour = document.querySelector('#hour');
-	let minute = document.querySelector('#minute');
-	let second = document.querySelector('#second');
+	<div id="main">
+		<div>
+			<span id="hours"></span>
+			<span id="firstseparator">:</span>
+			<span id="minutes"></span>
+			<span id="secondseparator">:</span>
+			<span id="seconds"></span>
+		</div>
+		<span id="date"></span>
+		<button id="btn">Stop</button>
+	</div>
 
-	function update(){
-	var now = new Date();
-	hour.innerHTML =  now.getHours();
-	minute.innerHTML = now.getMinutes();
-	second.innerHTML =  now.getSeconds();
-	if(+hour.innerHTML < 10) hour.innerHTML = 0+hour.innerHTML;
-	if(+minute.innerHTML < 10) minute.innerHTML = 0+minute.innerHTML;
-	if(+second.innerHTML < 10) second.innerHTML = 0+second.innerHTML;
-	}
+	<script type="text/javascript">
+		function update(){
+			let now = new Date();
+			hours.textContent = now.getHours();
+			minutes.textContent = now.getMinutes();
+			seconds.textContent =  now.getSeconds();
+			if(+hours.textContent < 10) hours.textContent = '0' + hours.textContent;
+			if(+minutes.textContent < 10) minutes.textContent = '0' + minutes.textContent;
+			if(+seconds.textContent < 10) seconds.textContent = '0' + seconds.textContent;
+			let month;
+			let numberOfMonth = now.getMonth();
+			if(numberOfMonth == 0) month = 'January';
+			else if(numberOfMonth == 1) month = 'February';
+			else if(numberOfMonth == 2) month = 'March';
+			else if(numberOfMonth == 3) month = 'April';
+			else if(numberOfMonth == 4) month = 'May';
+			else if(numberOfMonth == 5) month = 'June';
+			else if(numberOfMonth == 6) month = 'July';
+			else if(numberOfMonth == 7) month = 'August';
+			else if(numberOfMonth == 8) month = 'September';
+			else if(numberOfMonth == 9) month = 'October';
+			else if(numberOfMonth == 10) month = 'November';
+			else if(numberOfMonth == 11) month = 'December';
+			let day = now.getDate();
+			if(day%10 == 1) day = day + 'st';
+			else if(day%10 == 2) day = day + 'nd';
+			else if(day%10 == 3) day = day + 'rd';
+			else day = day + 'th';
+			let numberOfDayInWeek = now.getDay();
+			let dayOfWeek;
+			if ( numberOfDayInWeek == 0) dayOfWeek = 'Sunday';
+			else if ( numberOfDayInWeek == 1) dayOfWeek = 'Monday';
+			else if ( numberOfDayInWeek == 2) dayOfWeek = 'Tuesday';
+			else if ( numberOfDayInWeek == 3) dayOfWeek = 'Wednesday';
+			else if ( numberOfDayInWeek == 4) dayOfWeek = 'Thursday';
+			else if ( numberOfDayInWeek == 5) dayOfWeek = 'Friday';
+			else if ( numberOfDayInWeek == 6) dayOfWeek = 'Saturday';
+			date.textContent ='the '+ day + ' of ' + month + ' ' + now.getFullYear() + ' (' + dayOfWeek + ')';
 
-	update();
-
-	let timer = setInterval(update,1000);
-	let run = document.querySelector('#run');
-	let stop = document.querySelector('#stop');
-	run.onclick = function(){
+		}
 		update();
-		let timer1 = setInterval(update,1000);
-		timer = timer1;
+		let timer = setInterval(update,1000);
+		let working = true;
+		function startstop(){
+		if(working){
+			clearInterval(timer);
+			working = false;
+			console.log('timer is stopped');
+		}
+		else{
+			update();
+			timer = setInterval(update,1000);
+			working = true;
+			console.log('timer is started');
+		}
+		if(working){
+			btn.textContent = 'Stop';
+			btn.style.background = 'red';
+		}
+		else{
+			btn.textContent = 'Run';
+			btn.style.background = 'limegreen';
+		}
 	}
-	stop.onclick =function(){
-		clearInterval(timer);
-	}
+	btn.addEventListener('click',startstop);
+	document.addEventListener('keydown',function(event){
+		if(event.code != 'Space' && event.code != 'Enter') return;
+		btn.click();
+		event.preventDefault();
+	});
 
-</script>
+	</script>
 </body>
 </html>
